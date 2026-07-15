@@ -1,0 +1,56 @@
+from functools import wraps
+from typing import Any, Callable, Generator
+
+# завдання 1
+def log_args(func: Callable[..., Any]) -> Callable[..., Any]:
+    @wraps(func)
+    def wrapper(*args: Any, **kwargs: Any) -> Any:
+        print(f"Виклик {func.__name__} з аргументами : {args}")
+        return func(*args, **kwargs)
+    return wrapper
+
+# завдання 2
+def repeat(times: int) -> Callable[[Callable[..., Any]], Callable[..., Any]]:
+    def decorator(func: Callable[..., Any]) -> Callable[..., Any]:
+        @wraps(func)
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            result = None
+            for _ in range(times):
+                result = func(*args, **kwargs)
+            return result
+        return wrapper
+    return decorator
+
+# завдання 3
+def filter_long_words(words_list: list[str]) -> None:
+    for word in words_list:
+        if (length := len(word)) > 4:
+            print(f"Слово: '{word}', довжина: {length}")
+
+# завдання 4
+def countdown(n: int) -> Generator[int | str, None, None]:
+    for i in range(n, 0, -1):
+        yield i
+    yield "Старт!"
+
+
+# --- тест---
+@log_args
+def greet(name, age):
+    return f"Привіт, {name}!"
+
+greet("Влад", 16)
+
+@repeat(times=3)
+def say_hello():
+    print("Привіт, ліцеїсти!")
+
+say_hello()
+
+words = ["дім", "трамвай", "код", "ліцей"]
+print("\nСлова довші за 4 символи:")
+filter_long_words(words)
+
+print("\nЗворотний відлік:")
+for item in countdown(3):
+    print(item)
