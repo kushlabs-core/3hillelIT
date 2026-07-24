@@ -1,0 +1,69 @@
+#99
+# k = int(input())
+# n = int(input())
+# page = (n - 1) // k + 1
+# line_on_page = (n - 1) % k + 1
+# print(page, line_on_page)
+
+#177
+# n_str = input().strip().zfill(4)
+# is_unique = len(set(n_str)) == 4
+# print(is_unique)
+
+#291
+# n_str = input().strip()
+# reversed_str = n_str[::-1]
+# print(reversed_str)
+
+#818
+# class MoneyBox:
+#     def __init__(self, capacity):
+#         self.capacity = capacity
+#         self.coins = 0
+
+#     def can_add(self, v):
+#         return self.coins + v <= self.capacity
+
+#     def add(self, v):
+#         self.coins += v
+
+# n = int(input())
+# m = int(input())
+# k = int(input())
+
+# box = MoneyBox(n)
+
+# if box.can_add(m):
+#     box.add(m)
+
+# print(box.can_add(k))
+
+
+class Buffer:
+    def __init__(self):
+        self.buffer = []
+
+    def add(self, *a):
+        for item in a:
+            self.buffer.append(item)
+            while len(self.buffer) >= 5:
+                print(sum(self.buffer[:5]))
+                self.buffer = self.buffer[5:]
+
+    def get_current_part(self):
+        return self.buffer
+
+if __name__ == "__main__":
+    buf = Buffer()
+
+    buf.add(1, 2, 3)
+    print(buf.get_current_part())
+
+    buf.add(4, 5, 6)
+    print(buf.get_current_part())
+
+    buf.add(7, 8, 9, 10)
+    print(buf.get_current_part())
+
+    buf.add(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
+    print(buf.get_current_part())
